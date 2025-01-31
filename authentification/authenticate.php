@@ -1,5 +1,6 @@
 <?php 
-include 'databaseConnection.php';
+include './../src/databaseConnection.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +26,7 @@ include 'databaseConnection.php';
             <a href="authenticate.php" class="hover:cursor-pointer hover:opacity-80">Registrieren</a>
         </div>
     </header>
-    <form action="authenticate.php" method="GET">
+    <form onsubmit=validateMyForm(event) action="validateLogin.php" method="POST">
 <div class="border-2 w-96 flex px-6 py-4 rounded-md flex-col h-auto mx-auto mt-16  ">
 <img src="../src/images/koala.jpg" alt="Koala" class="mt-4 rounded-full w-24 h-24 self-center"/>
 <!--   <label class="mt-3" for="firstname">Vorname</label>
@@ -33,13 +34,13 @@ include 'databaseConnection.php';
   <label class="mt-2" for="lastname">Nachname</label>
   <input class="border text-black h-8 rounded-sm p-2" type="text" id="lastname" name="lastname"> -->
   <label class="mt-5" for="nutzer">Nutzername</label>
-  <input class="border h-8 rounded-sm text-black p-2" type="text" id="nutzer" name="nutzer">
+  <input class="border h-8 rounded-sm text-black p-2" type="text" id="nutzer" name="nutzer" value="" required>
   <label class="mt-3" for="email">E-Mail Adresse</label>
-  <input class="border h-8 rounded-sm text-black p-2" type="text" id="email" name="email">
+  <input class="border h-8 rounded-sm text-black p-2" type="email" id="email" name="email" required>
   <label class="mt-3" for="password">Passwort</label>
-  <input class="border h-8 rounded-sm p-2" type="text" id="password" name="password">
+  <input class="border h-8 rounded-sm p-2" type="text" id="password" name="password" required>
   <label class="mt-3 " for="confirm_password">Passwort bestätigen</label>
-  <input class="border h-8 rounded-sm p-2" type="text" id="confirm_password" name="confirm_password">
+  <input class="border h-8 rounded-sm p-2" type="text" id="confirm_password" name="confirm_password" required>
   <button value="register" class="w-32 h-10 text-center font-medium mt-8 mx-auto hover:pointer text-white hover:opacity-80 bg-lime-700 rounded-sm bg-" type="submit">Registrieren</button>
   <div class="flex gap-1 mt-3 font-light text-xs mx-auto">
       <div>Zurück zum</div>

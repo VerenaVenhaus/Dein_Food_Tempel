@@ -1,5 +1,5 @@
 <?php 
-include 'databaseConnection.php';
+include './../src/databaseConnection.php';
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +25,7 @@ include 'databaseConnection.php';
         <a href="authenticate.php" class="hover:cursor-pointer hover:opacity-80">Registrieren</a>
         </div>
     </header>
-    <form action="login.php" method="GET">
+    <form action="validateLogin.php" method="GET">
 <div class="border-2 w-96 flex px-6 py-4  rounded-md flex-col h-auto mx-auto mt-16  ">
 <img src="../src/images/koala.jpg" alt="Koala" class="mt-4 rounded-full w-24 h-24 self-center"/>
   <label class="hidden mt-3" for="firstname">Name</label>
