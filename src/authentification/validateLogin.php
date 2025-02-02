@@ -1,6 +1,6 @@
 <?php
 
-include "../src/databaseConnection.php";
+include "../database/databaseConnection.php";
 
 
 if($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -16,7 +16,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
 
     header("Location: http://localhost/Dein_Food_Tempel/src/index.php");
     } else { 
-        header("Location: http://localhost/Dein_Food_Tempel/authentification/authenticate.php");
+        header("Location: http://localhost/Dein_Food_Tempel/src/authentification/authenticate.php");
         echo "Passwort nicht indentisch";
     }
 }

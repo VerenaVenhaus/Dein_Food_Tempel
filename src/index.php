@@ -1,5 +1,5 @@
 <?php
-include 'databaseConnection.php';
+include 'database/databaseConnection.php';
 
 $stmt = $conn->prepare("SELECT * FROM rezepte");
 $stmt->execute();
@@ -21,33 +21,18 @@ echo $result;
   */
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./output.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Dein_Food_Tempel</title>
-    <link rel="icon" type="image/x-icon" href="../src/images/koala.jpg">
-</head>
+<?php include "PageComponents/head.php" ?>
 
 <body class="bg-amber-50">
-    <header class="bg-lime-700 text-white mb-2 h-16 flex items-center justify-between px-2">
-        <div class="flex">
-            <img src="../src/images/koala.jpg" alt="Koala" class="mr-4 rounded-full w-10 h-10" />
-            <div class="self-center font-thin">Dein_Food_Tempel</div>
-        </div>
-        <div class="flex gap-2">
-            <a href="../authentification/login.php" class="hover:opacity-80">Logout</a>
-        </div>
-    </header>
+<?php include "PageComponents/header.php" ?>
     <div class="w-full h-full ">
         <div class="flex">
             <div class="w-72 border-r-2 p-2">
                 <label class="font-semibold" for="suche">Suche</label>
-                <input class="border border-lime-700 h-8 rounded-lg text-black p-2 mt-1" type="text" id="suche" name="suche" value="">
+                <div class="input-group w-full h-8 items-center gap-2 flex justify-between mt-1">
+                    <input class="border border-lime-700 h-8 rounded-lg text-black p-2" type="text" id="suche" name="suche" value="">
+                    <button type="submit" class="border-white bg-lime-700 h-7 hover:opacity-80 text-xs px-2 rounded-md text-white">Los</button>
+                </div>
                 <div class="font-semibold mt-7">Filter:</div>
                 <div>Nährwerte</div>
                 <div>Gericht</div>
@@ -58,6 +43,7 @@ echo $result;
             </div>
             <div class="grid grid-cols-4 gap-5 w-full my-4 mx-28 ">
                 <?php while ($result = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                    <a href="recipe.php?recipe=<?=$result["rezept_name"]?>">
                     <div class="shadow rounded-md pb-2">
                         <img src="<?= $result["image"] ?>" alt="" class="w-full rounded-md mb-1" />
                         <div class="text-start text-sm font-semibold"><?= $result["rezept_name"] ?></div>
@@ -80,6 +66,7 @@ echo $result;
                         </div>
                         <div class="text-xs">Quelle: Zwergen Kochbuch</div>
                     </div>
+                    </a>
                 <?php endwhile; ?>
             </div>
         </div>
@@ -87,4 +74,4 @@ echo $result;
     </div>
 </body>
 
-</html>
+<?php include "PageComponents/footer.php" ?>

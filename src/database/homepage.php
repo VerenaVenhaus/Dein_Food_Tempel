@@ -1,5 +1,5 @@
 <?php 
-include "databaseConnection.php";
+include "database/databaseConnection.php";
 
 $stmt = $conn->prepare("SELECT * FROM rezepte");
 $stmt->execute();
