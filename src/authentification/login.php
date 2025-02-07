@@ -2,7 +2,7 @@
 include '../database/databaseConnection.php';
 session_start();
 // Setzt Session-Key
-if(!isset($_SESSION["User"])) $_SESSION["user"] = "";
+if(!isset($_SESSION["user"])) $_SESSION["user"] = "";
 $_SESSION["login"] == "false";
 ?>
 
@@ -29,21 +29,15 @@ $_SESSION["login"] == "false";
         <a href="authenticate.php" class="hover:cursor-pointer hover:opacity-80">Registrieren</a>
         </div>
     </header>
-    <form action="validateLogin.php" method="GET">
+    <form action="validateLogin.php" method="POST">
 <div class="border-2 w-96 flex px-6 py-4  rounded-md flex-col h-auto mx-auto mt-16  ">
 <img src="../images/koala.jpg" alt="Koala" class="mt-4 rounded-full w-24 h-24 self-center"/>
-  <label class="hidden mt-3" for="firstname">Name</label>
-  <input class="hidden text-black h-8 rounded-sm p-2" type="text" id="firstname" name="firstname">
-  <label class="hidden mt-3" for="lastname">Last name:</label>
-  <input class="hidden text-black h-8 rounded-sm p-2" type="text" id="lastname" name="lastname">
-  <label class="mt-3 hidden" for="nutzer">Nutzername</label>
-  <input class="border hidden h-8 rounded-sm text-black p-2" type="text" id="nutzer" name="nutzer">
   <label class="mt-3" for="email">E-Mail Adresse</label>
   <input class="border h-8 rounded-sm text-black p-2" type="text" id="email" name="email">
+  <div class="text-red-500 text-xs"><?php echo $_SESSION['user'] == "emailNotExists"? 'E-Mail existiert noch nicht' : '' ?></div>
   <label class="mt-3" for="password">Passwort</label>
   <input class="border h-8 rounded-sm p-2" type="text" id="password" name="password">
-  <label class="mt-3 hidden" for="confirm_password">Passwort bestätigen</label>
-  <input class="border h-8 rounded-sm p-2 hidden" type="text" id="confirm_password" name="confirm_password">
+  <div class="text-red-500 text-xs"><?php echo $_SESSION['user'] == "wrongPassword"? 'Passwort oder E-Mail falsch' : '' ?></div>
   <button value="login" class="w-28 h-10 text-center font-medium mt-8 mx-auto hover:pointer text-white hover:opacity-80 bg-lime-700 rounded-sm bg-" type="submit">Login</button>
   <div class="flex gap-1 mt-3 font-light text-xs mx-auto">
       <div>Noch keinen Account? Hier</div>

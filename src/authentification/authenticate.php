@@ -32,10 +32,6 @@ $_SESSION["login"] = "false";
     <form action="validateAuthenticate.php" method="POST">
 <div class="border-2 w-96 flex px-6 py-4 rounded-md flex-col h-auto mx-auto mt-16  ">
 <img src="../images/koala.jpg" alt="Koala" class="mt-4 rounded-full w-24 h-24 self-center"/>
-<!--   <label class="mt-3" for="firstname">Vorname</label>
-  <input class="border text-black h-8 rounded-sm p-2" type="text" id="firstname" name="firstname">
-  <label class="mt-2" for="lastname">Nachname</label>
-  <input class="border text-black h-8 rounded-sm p-2" type="text" id="lastname" name="lastname"> -->
   <label class="mt-5" for="nutzer">Name</label>
   <input class="h-8 rounded-sm text-black p-2 border" type="text" id="nutzer" name="nutzer" value="" required>
   <label class="mt-3" for="email">E-Mail Adresse</label>
