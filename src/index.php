@@ -1,5 +1,6 @@
 <?php
 include 'database/databaseConnection.php';
+session_start();
 
 $stmt = $conn->prepare("SELECT * FROM rezepte");
 $stmt->execute();
@@ -22,7 +23,7 @@ echo $result;
 ?>
 
 <?php include "PageComponents/head.php" ?>
-
+<?php if( $_SESSION["login"] == "true" ): ?>
 <body class="bg-amber-50">
 <?php include "PageComponents/header.php" ?>
     <div class="w-full h-full ">
@@ -73,5 +74,7 @@ echo $result;
 
     </div>
 </body>
-
+<?php else :
+     header("Location: http://localhost/Dein_Food_Tempel/src/authentification/authenticate.php");
+    endif; ?>
 <?php include "PageComponents/footer.php" ?>

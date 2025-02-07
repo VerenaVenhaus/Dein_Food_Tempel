@@ -1,5 +1,9 @@
 <?php 
 include '../database/databaseConnection.php';
+session_start();
+// Setzt Session-Key
+if(!isset($_SESSION["User"])) $_SESSION["user"] = "";
+$_SESSION["login"] == "false";
 ?>
 
 <!DOCTYPE html>
