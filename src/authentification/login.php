@@ -2,8 +2,9 @@
 include '../database/databaseConnection.php';
 session_start();
 // Setzt Session-Key
-if(!isset($_SESSION["user"])) $_SESSION["user"] = "";
-$_SESSION["login"] == "false";
+if(!isset($_SESSION["user"])) {
+    $_SESSION["user"] = "";}
+$_SESSION["login"] = "false";
 ?>
 
 <!DOCTYPE html>
@@ -32,11 +33,11 @@ $_SESSION["login"] == "false";
     <form action="validateLogin.php" method="POST">
 <div class="border-2 w-96 flex px-6 py-4  rounded-md flex-col h-auto mx-auto mt-16  ">
 <img src="../images/koala.jpg" alt="Koala" class="mt-4 rounded-full w-24 h-24 self-center"/>
-  <label class="mt-3" for="email">E-Mail Adresse</label>
-  <input class="border h-8 rounded-sm text-black p-2" type="text" id="email" name="email">
+  <label class="mt-3" for="email-login">E-Mail Adresse</label>
+  <input class="border h-8 rounded-sm text-black p-2" type="email" id="email-login" name="email-login">
   <div class="text-red-500 text-xs"><?php echo $_SESSION['user'] == "emailNotExists"? 'E-Mail existiert noch nicht' : '' ?></div>
-  <label class="mt-3" for="password">Passwort</label>
-  <input class="border h-8 rounded-sm p-2" type="text" id="password" name="password">
+  <label class="mt-3" for="password-login">Passwort</label>
+  <input class="border h-8 rounded-sm p-2" type="text" id="password-login" name="password-login">
   <div class="text-red-500 text-xs"><?php echo $_SESSION['user'] == "wrongPassword"? 'Passwort oder E-Mail falsch' : '' ?></div>
   <button value="login" class="w-28 h-10 text-center font-medium mt-8 mx-auto hover:pointer text-white hover:opacity-80 bg-lime-700 rounded-sm bg-" type="submit">Login</button>
   <div class="flex gap-1 mt-3 font-light text-xs mx-auto">
