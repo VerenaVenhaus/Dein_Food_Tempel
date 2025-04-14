@@ -1,6 +1,6 @@
 <?php 
 include "database/databaseConnection.php";
-include "database/getSingleRecipe.php";
+include "query/getSingleRecipe.php";
 ?>
 
 <?php include "PageComponents/head.php" ?>

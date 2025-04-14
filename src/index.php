@@ -1,5 +1,6 @@
 <?php
 include 'database/databaseConnection.php';
+include "query/getNutritiveValue.php";
 session_start();
 
 $stmt = $conn->prepare("SELECT * FROM rezepte");
@@ -34,12 +35,104 @@ echo $result;
                     <input class="border border-lime-700 h-8 rounded-lg text-black p-2" type="text" id="suche" name="suche" value="">
                     <button type="submit" class="border-white bg-lime-700 h-7 hover:opacity-80 text-xs px-2 rounded-md text-white">Los</button>
                 </div>
-                <div class="font-semibold mt-7">Filter:</div>
-                <div>Nährwerte</div>
-                <div>Gericht</div>
-                <div>Geschmacksrichtung</div>
-                <div>Lebensweise</div>
-                <div>Ernährung</div>
+                <div class="font-semibold mt-7 mb-3">Filter:</div>
+                
+<button id="btn-dropdown-lebensweise" data-dropdown-toggle="dropdown-lebensweise" class="w-44 font-medium  text-sm pr-4 py-1.5 text-center flex justify-between items-center " type="button">Lebensweise <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4"/>
+</svg>
+</button>
+<!-- Dropdown menu -->
+<div id="dropdown-lebensweise" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm max-h-48 h-fit overflow-y-scroll w-44 dark:bg-gray-700">
+    <ul class=" text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vegan</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vegetarisch</a>
+      </li>
+    </ul>
+</div>
+<button id="btn-dropdown-gericht" data-dropdown-toggle="dropdown-gericht" class=" w-44 font-medium  text-sm pr-4 py-1.5 text-center flex justify-between items-center " type="button">Gericht <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4"/>
+</svg>
+</button>
+<!-- Dropdown menu -->
+<div id="dropdown-gericht" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm max-h-48 h-fit overflow-y-scroll w-44 dark:bg-gray-700">
+    <ul class=" text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vegan</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vegetarisch</a>
+      </li>
+    </ul>
+</div>
+<button id="btn-dropdown-geschmacksrichtung" data-dropdown-toggle="dropdown-geschmacksrichtung" class=" w-44 font-medium  text-sm pr-4 py-1.5 text-center flex justify-between items-center " type="button">Geschmacksrichtung <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4"/>
+</svg>
+</button>
+<!-- Dropdown menu -->
+<div id="dropdown-geschmacksrichtung" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm max-h-48 h-fit overflow-y-scroll w-44 dark:bg-gray-700">
+    <ul class=" text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vegan</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vegetarisch</a>
+      </li>
+    </ul>
+</div>
+<button id="btn-dropdown-ernaehrung" data-dropdown-toggle="dropdown-ernaehrung" class="w-44 font-medium  text-sm pr-4 py-1.5 text-center flex justify-between items-center " type="button">Ernährung <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4"/>
+</svg>
+</button>
+<!-- Dropdown menu -->
+<div id="dropdown-ernaehrung" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm max-h-48 h-fit overflow-y-scroll w-44 dark:bg-gray-700">
+    <ul class=" text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vegan</a>
+      </li>
+      <li>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vegetarisch</a>
+      </li>
+    </ul>
+</div>
+
+<button id="multiLevelDropdownButton-Naehrwerte" data-dropdown-toggle="multi-dropdown-naehrwerte" class=" w-44 font-medium  text-sm pr-4 py-1.5 text-center flex justify-between items-center" type="button">Nährwerte<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4"/>
+</svg>
+</button>
+
+<!-- Dropdown menu -->
+<div id="multi-dropdown-naehrwerte" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="multiLevelDropdownButton">
+    <?php while($resultNutritiveValue = $stmtNutritiveValue->fetch(PDO::FETCH_ASSOC)) :?> 
+    <li>
+        <button id="doubleDropdownButton-<?=$resultNutritiveValue["naehrwert_name"]?>" data-dropdown-toggle="doubleDropdown-<?=$resultNutritiveValue["naehrwert_name"]?>" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><?=$resultNutritiveValue["naehrwert_name"]?><svg class="w-2.5 h-2.5 ms-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+  </svg></button>
+          <div id="doubleDropdown-<?=$resultNutritiveValue["naehrwert_name"]?>" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="doubleDropdownButton-<?=$resultNutritiveValue["naehrwert_name"]?>">
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Overview</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My downloads</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Billing</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Rewards</a>
+              </li>
+            </ul>
+        </div>
+      </li>
+      <?php endwhile; ?>
+  
+    </ul>
+</div>
+
 
             </div>
             <div class="grid grid-cols-4 gap-5 w-full my-4 mx-28 ">
@@ -73,6 +166,8 @@ echo $result;
         </div>
 
     </div>
+    <script src="../node_modules/flowbite/dist/flowbite.min.js"></script>
+
 </body>
 <?php else :
      header("Location: http://localhost/Dein_Food_Tempel/src/authentification/authenticate.php");
