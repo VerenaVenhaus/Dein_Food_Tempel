@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $isPasswordCorrect = password_verify($combinedPassword, $hashedPassword);
         if($isPasswordCorrect) {
             // Password is correct, allow login
-            $_SESSION["user"] = $result["nutzername"];
+            $_SESSION["user"] = $result["id_nutzer"];
             $_SESSION["login"] = "true";
             header("Location: http://localhost/Dein_Food_Tempel/src/index.php");
         } else {

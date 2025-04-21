@@ -1,26 +1,21 @@
 <?php
 include 'database/databaseConnection.php';
 include "query/getNutritiveValue.php";
+include "query/getLebensweise.php";
+include "query/getKuecheKontinental.php";
+
 session_start();
 
-$stmt = $conn->prepare("SELECT * FROM rezepte");
+$user = $_SESSION["user"];
+
+try {
+$stmt = $conn->prepare("SELECT * FROM rezepte WHERE nutzer_id = $user");
 $stmt->execute();
 $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+} catch(PDOException $e) {
+  echo "Error: " . $e->getMessage();
+}
 
-/* while ($result = $stmt->fetch(PDO::FETCH_ASSOC)) {
-    echo $result["rezept_name"];
-    echo "</br>";
-} */
-/* try {
-    $stmt = $conn->prepare("SELECT * FROM rezepte");
-    $stmt->execute();
-    // set the resulting array to associative
-    $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-echo $result;
-  } catch(PDOException $e) {
-    echo "Error: " . $e->getMessage();
-  }
-  */
 ?>
 
 <?php include "PageComponents/head.php" ?>
@@ -36,6 +31,38 @@ echo $result;
                     <button type="submit" class="border-white bg-lime-700 h-7 hover:opacity-80 text-xs px-2 rounded-md text-white">Los</button>
                 </div>
                 <div class="font-semibold mt-7 mb-3">Filter:</div>
+ 
+                <button id="multiLevelDropdownButton-kueche" data-dropdown-toggle="multi-dropdown-kueche" class=" w-44 font-medium  text-sm pr-4 py-1.5 text-center flex justify-between items-center" type="button">Küche<svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4"/>
+</svg>
+</button>
+
+<!-- Dropdown menu -->
+<div id="multi-dropdown-kueche" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="multiLevelDropdownButton">
+    <?php 
+     while($resultKuecheKontinente = $stmtKuecheKontinente->fetch(PDO::FETCH_ASSOC)) :?> 
+    <li>
+        <button id="doubleDropdownButton-<?=$resultKuecheKontinente["name_kueche_kontinental"]?>" data-dropdown-toggle="doubleDropdown-<?=$resultKuecheKontinente["name_kueche_kontinental"]?>" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><?=$resultKuecheKontinente["name_kueche_kontinental"]?><svg class="w-2.5 h-2.5 ms-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+  </svg></button>
+          <div id="doubleDropdown-<?=$resultKuecheKontinente["name_kueche_kontinental"]?>" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200 max-h-48 h-fit overflow-y-scroll" aria-labelledby="doubleDropdownButton-<?=$resultKuecheKontinente["name_kueche_kontinental"]?>">
+              <?php 
+              $kontinentId = $resultKuecheKontinente["id_kueche_kontinental"];
+              include "query/getKuecheLandOnKontinent.php";
+              while($resultKuecheLandOnKontinent = $stmtKuecheLand->fetch(PDO::FETCH_ASSOC)) : ?>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><?=$resultKuecheLandOnKontinent["name_kueche_laender"]?></a>
+              </li>
+              <?php endwhile; ?>
+            </ul>
+        </div>
+      </li>
+      <?php endwhile; ?>
+  
+    </ul>
+</div>
                 
 <button id="btn-dropdown-lebensweise" data-dropdown-toggle="dropdown-lebensweise" class="w-44 font-medium  text-sm pr-4 py-1.5 text-center flex justify-between items-center " type="button">Lebensweise <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="m1 1 4 4 4-4"/>
@@ -44,12 +71,11 @@ echo $result;
 <!-- Dropdown menu -->
 <div id="dropdown-lebensweise" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm max-h-48 h-fit overflow-y-scroll w-44 dark:bg-gray-700">
     <ul class=" text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+      <?php while($resultLebensweise = $stmtLebensweise->fetch(PDO::FETCH_ASSOC)) : ?>
       <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vegan</a>
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"><?=$resultLebensweise["name_lebensweise"]?></a>
       </li>
-      <li>
-        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Vegetarisch</a>
-      </li>
+      <?php endwhile ?>
     </ul>
 </div>
 <button id="btn-dropdown-gericht" data-dropdown-toggle="dropdown-gericht" class=" w-44 font-medium  text-sm pr-4 py-1.5 text-center flex justify-between items-center " type="button">Gericht <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
